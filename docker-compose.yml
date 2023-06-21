@@ -1,1 +1,27 @@
-version:
+version: "3.7"
+
+services:
+
+  miletus_backend:
+    image: miletus/miletus:v0
+    build: .
+    volumes:
+      - ./:/miletus
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:12
+    volumes:
+      - db:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: ${POSTGRESQL_USER}
+      POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRES_DB: ${POSTGRESQL_DB_NAME}
+    ports:
+      - "5432:5432"
+    restart: always
+volumes:
+  db:
