@@ -9,8 +9,10 @@ from flask_sqlalchemy import SQLAlchemy
 
 from config.config import Config
 import app.db
+
 db = SQLAlchemy()
 migrate = Migrate()
+
 
 # csrf = CSRFProtect()
 def create_app(config_class=Config):
@@ -29,7 +31,5 @@ def create_app(config_class=Config):
         db.create_all()
     return app
 
-
 #     from app.api import bp as api_bp
 #     app.register_blueprint(api_bp, url_prefix='/api')
-

@@ -5,7 +5,8 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /miletus_backend
 COPY requirements.txt .
-RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+RUN apt-get update && apt-get install -y gcc libpq-dev \
+&& pip3 install -r requirements.txt
 
 COPY . .
 CMD flask db init ; \

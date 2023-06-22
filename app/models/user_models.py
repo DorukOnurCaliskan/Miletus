@@ -1,5 +1,6 @@
 from app import db
 
+
 class User(db.Model):
     __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True)
@@ -13,11 +14,16 @@ class User(db.Model):
             'id': self.id,
             'name': self.name,
             'surname': self.surname,
-            'phone': self.phone
+            'phone': self.phone,
+            'email': self.email
         }
         return data
 
-
-
-
-
+    def from_dict(self, data):
+        user = self
+        user.id = data.get('id')
+        user.name = data.get('name')
+        user.surname = data.get('surname')
+        user.phone = data.get('phone')
+        user.email = data.get('email')
+        return user
