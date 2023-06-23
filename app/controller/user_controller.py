@@ -1,5 +1,4 @@
 from flask import jsonify
-
 from app.service import user_service
 from errors import bad_request
 
@@ -23,3 +22,29 @@ def create_new_user_controller(request):
         return jsonify(message="Üyelik Başarılı")
     else:
         return bad_request("SYSTEM ERROR")
+
+
+def get_all_users_controller(request):
+    users = user_service.get_all_users_service()
+    user_list = [user.to_dict() for user in users]  # Convert users to a list of dictionaries
+    return jsonify(user_list)
+
+
+def get_user_by_id_controller(request):
+    users = user_service.get_user_by_id_service()
+    user_list = [user.to_dict() for user in users]  # Convert users to a list of dictionaries
+    return jsonify(user_list)
+
+
+def update_phone_number_controller(request):
+    data = request.get_json()
+    user = user_service.get_all_users_service()
+    if not user:
+        bad_request("Kullanıcı Yok")
+
+    if 'phone' not in data:
+        return bad_request("Telefon numarası gerekli")
+
+    user.phone = data['phone']
+
+    return {'message': 'Phone number updated successfully'}

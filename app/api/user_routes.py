@@ -1,11 +1,23 @@
-from flask import jsonify, request
-from app import app, db
+from flask import request
 from app.api import bp
 from app.controller import user_controller
-from app.models.user_models import User
 
 
 @bp.route('/createNewUser', methods=['POST'])
 def create_user():
     return user_controller.create_new_user_controller(request)
 
+
+@bp.route('/getAllUser', methods=['GET'])
+def get_all_user():
+    return user_controller.get_all_users_controller(request)
+
+
+@bp.route('/getUserById', methods=['GET'])
+def get_user_by_id():
+    return user_controller.get_all_users_controller(request)
+
+
+@bp.route('/UpdatePhoneNumber', methods=['PUT'])
+def update_phone_number():
+    return user_controller.update_phone_number_controller(request)

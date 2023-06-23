@@ -10,3 +10,17 @@ def create_user_service(data):
     user = User()
     user.from_dict(data)
     return user_db.insert_user_to_db(user)
+
+
+def get_all_users_service():
+    return user_db.get_all_users_from_db()
+
+
+def get_user_by_id_service():
+    return user_db.get_user_by_id_from_db()
+
+
+def update_phone_number_service(data):
+    user = User()
+    user.phone = data['phone']
+    return

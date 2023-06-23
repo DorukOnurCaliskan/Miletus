@@ -14,3 +14,20 @@ def insert_user_to_db(user):
     except:
         db.session.rollback()
         return False
+
+
+def get_all_users_from_db():
+    return db.session.query(User).all()
+
+
+def get_user_by_id_from_db():
+    return db.session.query(User).filter(User.query.get(User.id) == User['id']).first()
+
+
+def update_phone_number_db(user):
+    try:
+        db.session.commit()
+        return True
+    except:
+        db.rollback()
+        return False
