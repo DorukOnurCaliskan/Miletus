@@ -21,3 +21,8 @@ def get_user_by_id():
 @bp.route('/UpdatePhoneNumber', methods=['PUT'])
 def update_phone_number():
     return user_controller.update_phone_number_controller(request)
+
+
+@bp.route('/addNTestUsers', methods=['POST'])
+def add_n_test_users():
+    return user_controller.add_n_test_users_controller(request)
