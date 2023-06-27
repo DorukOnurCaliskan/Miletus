@@ -20,8 +20,8 @@ def get_all_users_from_db():
     return db.session.query(User).all()
 
 
-def get_user_by_id_from_db():
-    return db.session.query(User).filter(User.query.get(User.id) == User['id']).first()
+def get_user_by_id_from_db(user_id):
+    return db.session.query(User).get(user_id)
 
 
 def update_phone_number_db(user):
@@ -29,5 +29,5 @@ def update_phone_number_db(user):
         db.session.commit()
         return True
     except:
-        db.rollback()
+        db.session.rollback()
         return False

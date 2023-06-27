@@ -16,11 +16,14 @@ def get_all_users_service():
     return user_db.get_all_users_from_db()
 
 
-def get_user_by_id_service():
-    return user_db.get_user_by_id_from_db()
+def get_user_by_id_service(user_id):
+    return user_db.get_user_by_id_from_db(user_id)
 
 
-def update_phone_number_service(data):
-    user = User()
-    user.phone = data['phone']
-    return
+def update_phone_number_service(old_phone, new_phone):
+    user = user_db.get_user_by_phone(old_phone)
+    if user is None:
+        return False
+    user.phone = new_phone
+    return user_db.update_phone_number_db(user)
+

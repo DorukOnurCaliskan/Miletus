@@ -15,7 +15,7 @@ def get_all_user():
 
 @bp.route('/getUserById', methods=['GET'])
 def get_user_by_id():
-    return user_controller.get_all_users_controller(request)
+    return user_controller.get_user_by_id_controller(request)
 
 
 @bp.route('/UpdatePhoneNumber', methods=['PUT'])
