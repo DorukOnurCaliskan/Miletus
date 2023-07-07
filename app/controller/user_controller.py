@@ -16,6 +16,7 @@ def validate_user_data(data):
 
 
 def create_new_user_controller(request):
+    print(1)
     data = request.get_json()
 
     is_user_data_correct = validate_user_data(data)

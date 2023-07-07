@@ -3,10 +3,10 @@ version: "3.7"
 services:
 
   miletus_backend:
-    image: miletus/miletus:v0
+    image: miletus_s1/miletus_s2:v0
     build: .
     volumes:
-      - ./:/miletus
+      - ./:/miletus_backend
     ports:
       - "5000:5000"
     depends_on:

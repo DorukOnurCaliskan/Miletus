@@ -29,5 +29,5 @@ def add_n_test_users():
 
 
 @bp.route('/DeleteUserByPhoneNumber', methods=['DELETE'])
-def add_n_test_users():
+def delete_user_by_phone_number():
     return user_controller.delete_user_by_phone_number_controller(request)
