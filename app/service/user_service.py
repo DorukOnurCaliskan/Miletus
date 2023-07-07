@@ -27,3 +27,12 @@ def update_phone_number_service(old_phone, new_phone):
     user.phone = new_phone
     return user_db.update_phone_number_db(user)
 
+
+def delete_user_by_phone_number_service(phone):
+    user = user_db.get_user_by_phone(phone)
+    if user is None:
+        return False
+    if user.phone == phone:
+        return user_db.delete_user_by_phone_number_db(user)
+    else :
+        return

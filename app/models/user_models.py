@@ -1,4 +1,5 @@
 from app import db
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(db.Model):
@@ -8,6 +9,18 @@ class User(db.Model):
     surname = db.Column(db.String(40), nullable=False)
     phone = db.Column(db.String(14), nullable=False)
     email = db.Column(db.String(40), nullable=False)
+    password_hash = db.Column(db.String(128))
+
+    @property
+    def password(self):
+        raise AttributeError('password is not a readable attribute')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     def to_dict(self):
         data = {
@@ -15,7 +28,8 @@ class User(db.Model):
             'name': self.name,
             'surname': self.surname,
             'phone': self.phone,
-            'email': self.email
+            'email': self.email,
+            'password': self.password
         }
         return data
 
@@ -26,4 +40,5 @@ class User(db.Model):
         user.surname = data.get('surname')
         user.phone = data.get('phone')
         user.email = data.get('email')
+        user.password = data.get('password')
         return user

@@ -1,8 +1,18 @@
-import sys
-
 from flask import jsonify
 from app.service import user_service
 from errors import bad_request
+
+
+def validate_user_data(data):
+    if 'name' not in data or 'surname' not in data or 'phone' not in data or 'email' not in data:
+        return bad_request("Uyelik bilgilerini tamamalayarak gönderin")
+
+    if not isinstance(data['name'], str):
+        return bad_request("İsim formatı yanlış")
+
+    if not isinstance(data['surname'], str):
+        return bad_request("Soy İsim formatı yanlış")
+    return True
 
 
 def create_new_user_controller(request):
@@ -63,13 +73,13 @@ def add_n_test_users_controller(request):
 
     return jsonify(message="Olmayan Üyelikler eklendi")
 
-def validate_user_data(data):
-    if 'name' not in data or 'surname' not in data or 'phone' not in data or 'email' not in data:
-        return bad_request("Uyelik bilgilerini tamamalayarak gönderin")
 
-    if not isinstance(data['name'], str):
-        return bad_request("İsim formatı yanlış")
+def delete_user_by_phone_number_controller(request):
+    data = request.get_json()
+    if 'phone' not in data:
+        return bad_request("Telefon numarası yok")
 
-    if not isinstance(data['surname'], str):
-        return bad_request("Soy İsim formatı yanlış")
-    return True
+    if user_service.delete_user_by_phone_number_service(data['phone']):
+        return jsonify(message='User deleted successfully')
+    else:
+        return bad_request("Failed to delete user")

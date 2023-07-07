@@ -26,3 +26,8 @@ def update_phone_number():
 @bp.route('/addNTestUsers', methods=['POST'])
 def add_n_test_users():
     return user_controller.add_n_test_users_controller(request)
+
+
+@bp.route('/DeleteUserByPhoneNumber', methods=['DELETE'])
+def add_n_test_users():
+    return user_controller.delete_user_by_phone_number_controller(request)

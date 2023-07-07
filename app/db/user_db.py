@@ -31,3 +31,13 @@ def update_phone_number_db(user):
     except:
         db.session.rollback()
         return False
+
+
+def delete_user_by_phone_number_db(user):
+    try:
+        db.session.delete(user)
+        db.session.commit()
+        return True
+    except:
+        db.session.rollback()
+        return False
