@@ -1,5 +1,6 @@
 from flask import request
 from app.api import bp
+from app.auth import token_auth
 from app.controller import user_controller
 
 
@@ -19,6 +20,7 @@ def get_user_by_id():
 
 
 @bp.route('/UpdatePhoneNumber', methods=['PUT'])
+@token_auth.login_required
 def update_phone_number():
     return user_controller.update_phone_number_controller(request)
 
@@ -31,3 +33,8 @@ def add_n_test_users():
 @bp.route('/DeleteUserByPhoneNumber', methods=['DELETE'])
 def delete_user_by_phone_number():
     return user_controller.delete_user_by_phone_number_controller(request)
+
+
+@bp.route('/Login', methods=['GET', 'POST'])
+def login():
+    return user_controller.login_controller(request)

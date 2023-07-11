@@ -41,3 +41,8 @@ def delete_user_by_phone_number_db(user):
     except:
         db.session.rollback()
         return False
+
+
+def get_user_by_email(email):
+    return db.session.query(User).filter(User.email == email).first()
+

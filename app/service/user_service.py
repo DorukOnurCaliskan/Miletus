@@ -13,7 +13,9 @@ def create_user_service(data):
 
 
 def get_all_users_service():
-    return user_db.get_all_users_from_db()
+    users = user_db.get_all_users_from_db()
+    user_list = [user.to_dict() for user in users]
+    return user_list
 
 
 def get_user_by_id_service(user_id):
@@ -36,3 +38,13 @@ def delete_user_by_phone_number_service(phone):
         return user_db.delete_user_by_phone_number_db(user)
     else :
         return
+
+
+def auth_user_service(email, password):
+
+    user = user_db.get_user_by_email(email)
+    if not user:
+        return False
+    if user.verify_password(password):
+        return user.get_token(2629743)
+    return False
