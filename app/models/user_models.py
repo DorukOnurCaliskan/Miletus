@@ -1,14 +1,15 @@
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin, login_user, login_manager, login_required, logout_user, current_user
 
 
-class User(db.Model):
+class User(db.Model,UserMixin):
     __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
     surname = db.Column(db.String(40), nullable=False)
-    phone = db.Column(db.String(14), nullable=False) # unique=True
-    email = db.Column(db.String(40), nullable=False) # unique=True
+    phone = db.Column(db.String(14), nullable=False, unique=True)  # unique=True
+    email = db.Column(db.String(40), nullable=False, unique=True)  # unique=True
     password_hash = db.Column(db.String(128))
 
     @property

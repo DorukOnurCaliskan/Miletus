@@ -4,10 +4,9 @@ from errors import bad_request
 
 
 def validate_user_data(data):
+    # todo: add password check
 
-    #todo: add password check
-
-    if 'name' not in data or 'surname' not in data or 'phone' not in data or 'email' not in data:
+    if 'name' not in data or 'surname' not in data or 'phone' not in data or 'email' or 'password' not in data:
         return bad_request("Uyelik bilgilerini tamamalayarak gönderin")
 
     if not isinstance(data['name'], str):
@@ -15,18 +14,24 @@ def validate_user_data(data):
 
     if not isinstance(data['surname'], str):
         return bad_request("Soy İsim formatı yanlış")
+
+    if not isinstance(data['email'], str):
+        return bad_request("Soy İsim formatı yanlış")
+
+    if not isinstance(data['password'], str):
+        return bad_request("Soy İsim formatı yanlış")
+
     return True
 
 
 def create_new_user_controller(request):
-    print(1)
     data = request.get_json()
 
-    #todo. you have to add format controller for all fields
+    # todo. you have to add format controller for all fields
     is_user_data_correct = validate_user_data(data)
 
     if is_user_data_correct is not True:
-        return is_user_data_correct
+        return
 
     if user_service.get_user_by_phone_service(data['phone']):
         return bad_request("Üyelik var")
@@ -40,13 +45,13 @@ def create_new_user_controller(request):
 def get_all_users_controller(request):
     users = user_service.get_all_users_service()
 
-    #todo: below line better in service
+    # todo: below line better in service
     user_list = [user.to_dict() for user in users]  # Convert users to a list of dictionaries
     return jsonify(user_list)
 
 
 def get_user_by_id_controller(request):
-    #todo:you MUST always check your inputs while data read etc
+    # todo:you MUST always check your inputs while data read etc
 
     client_id = request.args.get('id')
     if client_id:
@@ -59,7 +64,6 @@ def get_user_by_id_controller(request):
         return jsonify(user_dict)
     else:
         return bad_request("Kullanıcı Bullunamadı")
-
 
 
 def update_phone_number_controller(request):
@@ -79,7 +83,7 @@ def add_n_test_users_controller(request):
         is_user_data_correct = validate_user_data(user_data)
 
         if is_user_data_correct is not True:
-            print("Girilen kullanıcıların eksik bilgileri var var")
+            print("Girilen kullanıcıların eksik bilgileri var")
 
         if user_service.get_user_by_phone_service(user_data['phone']):
             print("Üyelik var")
