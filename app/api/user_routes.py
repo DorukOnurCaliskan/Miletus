@@ -22,7 +22,7 @@ def get_user_by_id():
 @bp.route('/UpdatePhoneNumber', methods=['PUT'])
 @token_auth.login_required
 def update_phone_number():
-    return user_controller.update_phone_number_controller(request)
+    return user_controller.update_phone_number_controller(token_auth.current_user().id, request)
 
 
 @bp.route('/addNTestUsers', methods=['POST'])

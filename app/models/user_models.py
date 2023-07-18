@@ -58,10 +58,15 @@ class User(db.Model,UserMixin):
 
     def from_dict(self, data):
         user = self
-        user.id = data.get('id')
         user.name = data.get('name')
         user.surname = data.get('surname')
         user.phone = data.get('phone')
         user.email = data.get('email')
         user.password = data.get('password')
         return user
+
+    def from_dict_alternative(self, data):
+        for field in ['name', 'surname', 'phone', 'email', 'password']:
+            if field in data:
+                setattr(self, field, data[field])
+

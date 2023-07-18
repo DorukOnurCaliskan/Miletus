@@ -80,15 +80,21 @@ def get_user_by_id_controller(request):
         return bad_request("Kullanıcı Bullunamadı")
 
 
-def update_phone_number_controller(request):
-    data = request.get_json()
-    if 'phone' not in data:
-        return bad_request("Telefon numarası gerekli")
+def update_phone_number_controller(user_id, request):
+    user = user_service.get_user_by_id_service(user_id)
 
-    if user_service.update_phone_number_service(data['phone'], data['new_phone']):
+
+    data = request.get_json()
+    #Alternative for more generic usage
+    if user_service.update_phone_number_service_v2(user, data):
         return jsonify(message='Phone number updated successfully')
     else:
         return bad_request("Failed to update phone number")
+
+    # if user_service.update_phone_number_service(user, data['new_phone']):
+    #     return jsonify(message='Phone number updated successfully')
+    # else:
+    #     return bad_request("Failed to update phone number")
 
 
 def add_n_test_users_controller(request):
