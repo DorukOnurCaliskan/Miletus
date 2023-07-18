@@ -2,7 +2,7 @@ import re
 from flask import jsonify
 from app.service import user_service
 from errors import bad_request
-from utils.fortmat_checks import check_password_format
+from utils.fortmat_checks import check_password_format, check_email_format
 
 
 def validate_user_data(data):
@@ -28,8 +28,12 @@ def validate_user_data(data):
     if not isinstance(data['password'], str):
         return bad_request("Şifre formatı yanlış")
 
+    if not check_email_format(data['email']):
+        return bad_request("Şifre formatı yanlış")
+
     if not check_password_format(data['password']):
         return bad_request("Şifre formatı yanlış")
+
 
 
 def create_new_user_controller(request):
