@@ -34,6 +34,7 @@ def validate_user_data(data):
     if not check_password_format(data['password']):
         return bad_request("Şifre formatı yanlış")
 
+    return True
 
 
 def create_new_user_controller(request):
