@@ -38,3 +38,9 @@ def delete_user_by_phone_number():
 @bp.route('/Login', methods=['GET', 'POST'])
 def login():
     return user_controller.login_controller(request)
+
+
+@bp.route('/Logout')
+@token_auth.login_required
+def login():
+    return user_controller.logout_controller(request)

@@ -46,3 +46,11 @@ def delete_user_by_phone_number_db(user):
 def get_user_by_email(email):
     return db.session.query(User).filter(User.email == email).first()
 
+
+def logout_db(user):
+    try:
+        db.session.commit()
+        return True
+    except:
+        db.session.rollback()
+        return False

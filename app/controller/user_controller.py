@@ -1,5 +1,7 @@
 import re
 from flask import jsonify
+from sqlalchemy import null
+
 from app.service import user_service
 from errors import bad_request
 from utils.fortmat_checks import check_password_format, check_email_format
@@ -83,11 +85,21 @@ def get_user_by_id_controller(request):
 def update_phone_number_controller(user_id, request):
     user = user_service.get_user_by_id_service(user_id)
 
-
     data = request.get_json()
-    #Alternative for more generic usage
+    # Alternative for more generic usage
     if user_service.update_phone_number_service_v2(user, data):
-        return jsonify(message='Phone number updated successfully')
+        if 'phone' in data:
+            return jsonify(message='Phone number updated successfully')
+        if 'name' in data:
+            return jsonify(message='Name updated successfully')
+        if 'surname' in data:
+            return jsonify(message='Surname updated successfully')
+        if 'email' in data:
+            return jsonify(message='Email updated successfully')
+        if 'password' in data:
+            return jsonify(message='Password updated successfully')
+        else:
+            return bad_request('girilen data bir şey ifade etmiyor')
     else:
         return bad_request("Failed to update phone number")
 
@@ -145,3 +157,15 @@ def login_controller(request):
     if not token:
         return bad_request("Kullanıcı Bulunamadı")
     return jsonify(access_token=token)
+
+
+def logout_controller(user_id,request):
+    data = request.get_json() or {}
+    user = user_service.get_user_by_id_service(user_id)
+    if not user:
+        return bad_request('Kullanıcı Yok')
+    else:
+        user.token = None
+        user.token_expiration = None
+        return jsonify('Kullanıcı Silindi')
+

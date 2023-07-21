@@ -49,3 +49,4 @@ def auth_user_service(email, password):
     if user.verify_password(password):
         return user.get_token()
     return False
+
