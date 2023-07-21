@@ -73,8 +73,8 @@ class User(db.Model,UserMixin):
         if is_new:
             setattr(self, 'password', data['password'])
 
-class Order(db.Model):
-    pass
+# class Order(db.Model):
+#     pass
 
-class Order(db.Model):
-    pass
+# class Order(db.Model):
+#     pass
