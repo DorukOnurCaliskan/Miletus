@@ -47,7 +47,7 @@ def get_user_by_email(email):
     return db.session.query(User).filter(User.email == email).first()
 
 
-def logout_db(user):
+def logout_db():
     try:
         db.session.commit()
         return True

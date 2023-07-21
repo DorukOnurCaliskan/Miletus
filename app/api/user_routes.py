@@ -40,7 +40,7 @@ def login():
     return user_controller.login_controller(request)
 
 
-@bp.route('/Logout')
+@bp.route('/Logout', methods=['GET'])
 @token_auth.login_required
-def login():
-    return user_controller.logout_controller(request)
+def logout():
+    return user_controller.logout_controller(token_auth.current_user().id)

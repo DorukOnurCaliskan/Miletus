@@ -18,6 +18,7 @@ class User(db.Model,UserMixin):
     token = db.Column(db.String(32), index=True, unique=True)
     token_expiration = db.Column(db.DateTime)
 
+
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')
@@ -65,8 +66,15 @@ class User(db.Model,UserMixin):
         user.password = data.get('password')
         return user
 
-    def from_dict_alternative(self, data):
-        for field in ['name', 'surname', 'phone', 'email', 'password']:
+    def from_dict_alternative(self, data, is_new=False):
+        for field in ['name', 'surname', 'phone', 'email']:
             if field in data:
                 setattr(self, field, data[field])
+        if is_new:
+            setattr(self, 'password', data['password'])
 
+class Order(db.Model):
+    pass
+
+class Order(db.Model):
+    pass

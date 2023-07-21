@@ -1,3 +1,5 @@
+import datetime
+
 from app.db import user_db
 from app.models.user_models import User
 
@@ -8,7 +10,7 @@ def get_user_by_phone_service(phone):
 
 def create_user_service(data):
     user = User()
-    user.from_dict(data)
+    user.from_dict_alternative(data, True)
     return user_db.insert_user_to_db(user)
 
 
@@ -50,3 +52,11 @@ def auth_user_service(email, password):
         return user.get_token()
     return False
 
+
+def logout_service(user):
+    user.token_expiration = datetime.datetime.now() - datetime.timedelta(seconds=1)
+    return user_db.logout_db()
+
+
+def get_user_by_email_service(email):
+    return user_db.get_user_by_email(email)
