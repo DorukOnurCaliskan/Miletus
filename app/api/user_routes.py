@@ -44,3 +44,14 @@ def login():
 @token_auth.login_required
 def logout():
     return user_controller.logout_controller(token_auth.current_user().id)
+
+
+#TODO:
+# addNewRest
+# editRest
+# addProductsOfRest
+# editProductsOfRest
+# getAllRest
+# getProductsOfRest
+# createOrder
+
