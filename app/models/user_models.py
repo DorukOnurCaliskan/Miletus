@@ -7,9 +7,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, login_user, login_manager, login_required, logout_user, current_user
 
 
-class User(db.Model,UserMixin):
+class User(db.Model, UserMixin):
     __tablename__ = 'User'
-    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
     surname = db.Column(db.String(40), nullable=False)
     phone = db.Column(db.String(14), nullable=False, unique=True)  # unique=True
@@ -17,7 +17,32 @@ class User(db.Model,UserMixin):
     password_hash = db.Column(db.String(128))
     token = db.Column(db.String(32), index=True, unique=True)
     token_expiration = db.Column(db.DateTime)
+    orders = db.relationship('Order', backref='Order')
 
+
+class Order(db.Model):
+    __tablename__ = 'Order'
+    order_id = db.Column(db.Integer, primary_key=True)
+    order_address = db.Column(db.String(40), nullable=False)
+    rest_id = db.Column(db.String(40), nullable=False, unique=True)
+    user_id = db.Column(db.integer, db.ForeignKey('user_id'))
+
+
+class Restaurant(db.Model):
+    __tablename__ = 'Restaurant'
+    restaurant_id = db.Column(db.Integer, primary_key=True)
+    restaurant_name = db.Column(db.String(40), nullable=False)
+    restaurant_address = db.Column(db.String(40), nullable=False, unique=True)
+    products = db.relationship('Product', backref='Product')
+
+
+class Product(db.Model):
+    __tablename__ = 'Product'
+    product_id = db.Column(db.Integer, primary_key=True)
+    product_name = db.Column(db.String(40), nullable=False)
+    product_price = db.Column(db.Integer, nullable=False)
+    discount_amount = db.Column(db.Integer, nullable=False)
+    restaurant_id = db.Column(db.integer, db.ForeignKey('restaurant_id'))
 
     @property
     def password(self):
