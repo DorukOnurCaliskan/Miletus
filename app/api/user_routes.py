@@ -46,12 +46,19 @@ def logout():
     return user_controller.logout_controller(token_auth.current_user().id)
 
 
-#TODO:
+# TODO:
 # addNewRest
+@bp.route('/createNewRestaurant', methods=['POST'])
+def create_user():
+    return user_controller.create_new_restaurant_controller(request)
+
+
 # editRest
+@bp.route('/editRestaurant', methods=['POST'])
+def create_user():
+    return user_controller.edit_restaurant_controller(request)
 # addProductsOfRest
 # editProductsOfRest
 # getAllRest
 # getProductsOfRest
 # createOrder
-

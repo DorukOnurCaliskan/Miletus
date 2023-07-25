@@ -2,12 +2,11 @@ from flask import jsonify
 
 from app.service import user_service
 from errors import bad_request
-from utils.decorators import verify_registration_data
+from utils.decorators import verify_registration_data, verify_restaurant_data
 
 
 @verify_registration_data
 def create_new_user_controller(data):
-
     if user_service.get_user_by_phone_service(data['phone']):
         return bad_request("Üyelik var")
 
@@ -76,10 +75,6 @@ def update_phone_number_controller(user_id, request):
 def add_n_test_users_controller(request):
     data = request.get_json()
     for user_data in data['users']:
-        is_user_data_correct = validate_user_data(user_data)
-
-        if is_user_data_correct is not True:
-            print("Girilen kullanıcıların eksik bilgileri var")
 
         if user_service.get_user_by_phone_service(user_data['phone']):
             print("Üyelik var")
@@ -126,5 +121,39 @@ def login_controller(request):
 def logout_controller(user_id):
     user = user_service.get_user_by_id_service(user_id)
     user_service.logout_service(user)
+    return jsonify('Logout')
 
-    return jsonify('Kullanıcı Silindi')
+
+@verify_restaurant_data
+def create_new_restaurant_controller(data):
+    if user_service.create_new_restaurant_service(data):
+        return jsonify(message="Üyelik Başarılı")
+    else:
+        return bad_request("SYSTEM ERROR")
+
+
+def edit_restaurant_controller(restaurant_id,request):
+    restaurant = user_service.get_restaurant_by_id_service(restaurant_id)
+
+    data = request.get_json()
+    # Alternative for more generic usage
+    result_data = {}
+
+    if user_service.edit_restaurant_service(restaurant, data):
+        for field in data:
+            if field == "restaurant_name":
+                result_data['restaurant_name'] = "updated"
+            if field == "restaurant_address":
+                result_data['restaurant_address'] = "updated"
+            if field == "restaurant_type":
+                result_data['restaurant_type'] = "updated"
+            if field == "restaurant_opening_hour":
+                result_data['restaurant_opening_hour'] = "updated"
+            if field == "restaurant_closing_hour":
+                result_data['restaurant_closing_hour'] = "updated"
+            if field == "restaurant_status":
+                result_data['restaurant_status'] = "updated"
+        return jsonify(result_data)
+    else:
+        return bad_request("Failed to update phone number")
+

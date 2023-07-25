@@ -1,7 +1,7 @@
 import datetime
 
 from app.db import user_db
-from app.models.user_models import User
+from app.models.user_models import User, Restaurant
 
 
 def get_user_by_phone_service(phone):
@@ -60,3 +60,18 @@ def logout_service(user):
 
 def get_user_by_email_service(email):
     return user_db.get_user_by_email(email)
+
+
+def create_new_restaurant_service(data):
+    restaurant = Restaurant()
+    Restaurant.from_dict_alternative(data)
+    return user_db.insert_restaurant_to_db(restaurant)
+
+
+def get_restaurant_by_id_service(restaurant_id):
+    return user_db.get_restaurant_by_id_from_db(restaurant_id)
+
+
+def edit_restaurant_service(restaurant, data):
+    restaurant.from_dict_alternative(data)
+    return user_db.update_phone_number_db(restaurant)

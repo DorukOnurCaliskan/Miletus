@@ -155,9 +155,3 @@ class Product(db.Model):
                       'product_status', 'product_stock']:
             if field in data:
                 setattr(self, field, data[field])
-
-# class Order(db.Model):
-#     pass
-
-# class Order(db.Model):
-#     pass

@@ -1,5 +1,5 @@
 from app import db
-from app.models.user_models import User
+from app.models.user_models import User, Restaurant
 
 
 def get_user_by_phone(phone):
@@ -54,3 +54,20 @@ def logout_db():
     except:
         db.session.rollback()
         return False
+
+
+def insert_restaurant_to_db(restaurant):
+    try:
+        db.session.add(restaurant)
+        db.session.commit()
+        return True
+    except:
+        db.session.rollback()
+        return False
+
+
+def get_restaurant_by_id_from_db(restaurant_id):
+    return db.session.query(Restaurant).get(restaurant_id)
+
+def edit_restaurant_db():
+    pass

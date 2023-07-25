@@ -21,7 +21,7 @@ def verify_registration_data(f):
         if any(chr.isdigit() for chr in data['surname']):
             return bad_request("Soy İsim formatı yanlış")
 
-        if not isinstance(data['surname'], str) or len(data['name']) < 1:
+        if not isinstance(data['surname'], str) or len(data['surname']) < 1:
             return bad_request("Soy İsim formatı yanlış")
 
         if not isinstance(data['email'], str):
@@ -38,6 +38,40 @@ def verify_registration_data(f):
 
         if not check_password_format(data['password']):
             return bad_request("Şifre formatı yanlış")
+
+        return f(data)
+
+    return decorated_function
+
+
+def verify_restaurant_data(f):
+    @functools.wraps(f)
+    def decorated_function(request):
+
+        data = request.get_json() or {}
+        if 'restaurant_name' not in data or 'restaurant_address' not in data or 'restaurant_opening_hour' not in data or 'restaurant_closing_hour' not in data or 'restaurant_type' not in data:
+            return bad_request("Restoran bilgilerini tamamalayarak gönderin")
+
+        if not isinstance(data['restaurant_name'], str) or len(data['restaurant_name']) < 1:
+            return bad_request("Restoran isim formatı yanlış")
+
+        if any(chr.isdigit() for chr in data['restaurant_name']):
+            return bad_request("İsim formatı yanlış")
+
+        if any(chr.isdigit() for chr in data['restaurant_address']):
+            return bad_request("Adres formatı yanlış")
+
+        if not isinstance(data['restaurant_address'], str) or len(data['restaurant_address']) < 1:
+            return bad_request("Adres İsim formatı yanlış")
+
+        if not isinstance(data['restaurant_opening_hour'], int):
+            return bad_request("Açılış saat formatı yanlış")
+
+        if not isinstance(data['restaurant_closing_hour'], int):
+            return bad_request("Açılış saat formatı yanlış")
+
+        if not isinstance(data['restaurant_type'], str):
+            return bad_request("Tip formatı yanlış")
 
         return f(data)
 
