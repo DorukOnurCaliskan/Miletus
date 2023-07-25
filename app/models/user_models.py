@@ -87,7 +87,7 @@ class Order(db.Model):
             'order_id': self.order_id,
             'order_address': self.order_address,
             'order_status': self.order_status,
-            'rest_id': self.rest_id,
+            'restaurant_id': self.rest_id,
             'user_id': self.user_id,
         }
         return data
@@ -153,5 +153,29 @@ class Product(db.Model):
     def from_dict_alternative(self, data):
         for field in ['product_name', 'product_price', 'discount_amount',
                       'product_status', 'product_stock']:
+            if field in data:
+                setattr(self, field, data[field])
+
+
+class Cart(db.Model):
+    __tablename__ = 'Cart'
+    cart_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('User.id'))
+    order_id = db.Column(db.Integer, db.ForeignKey('Order.id'))
+    product_id = db.Column(db.Integer, db.ForeignKey('Product.id'))
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('Restaurant.id'))
+
+    def to_dict(self):
+        data = {
+            'cart_id': self.cart_id,
+            'product_id': self.product_id,
+            'order_id': self.order_id,
+            'restaurant_id': self.restaurant_id,
+            'user_id': self.user_id,
+        }
+        return data
+
+    def from_dict_alternative(self, data):
+        for field in ['cart_id', 'product_id','order_id','restaurant_id','user_id']:
             if field in data:
                 setattr(self, field, data[field])

@@ -76,3 +76,25 @@ def verify_restaurant_data(f):
         return f(data)
 
     return decorated_function
+
+def verify_product_data(f):
+    @functools.wraps(f)
+    def decorated_function(request):
+
+        data = request.get_json() or {}
+        if 'product_name' not in data or 'product_price' not in data or 'discount_amount' not in data:
+            return bad_request("Ürün bilgilerini tamamalayarak gönderin")
+
+        if not isinstance(data['product_name'], str) or len(data['product_name']) < 1:
+            return bad_request("Ürün isim formatı yanlış")
+
+        if not isinstance(data['product_price'], int):
+            return bad_request("Fiyat saat formatı yanlış")
+
+        if not isinstance(data['discount_amount'], int):
+            return bad_request("İndirim saat formatı yanlış")
+
+
+        return f(data)
+
+    return decorated_function

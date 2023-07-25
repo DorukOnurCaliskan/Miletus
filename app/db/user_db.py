@@ -69,5 +69,38 @@ def insert_restaurant_to_db(restaurant):
 def get_restaurant_by_id_from_db(restaurant_id):
     return db.session.query(Restaurant).get(restaurant_id)
 
-def edit_restaurant_db():
-    pass
+
+def edit_restaurant_db(restaurant):
+    try:
+        db.session.commit()
+        return True
+    except:
+        db.session.rollback()
+        return False
+
+
+def get_all_restaurants_from_db():
+    return db.session.query(Restaurant).all()
+
+
+def add_product_to_db(product):
+    try:
+        db.session.add(product)
+        db.session.commit()
+        return True
+    except:
+        db.session.rollback()
+        return False
+
+
+def get_product_by_id_from_db(product_id):
+    return db.session.query(Restaurant).get(product_id)
+
+
+def edit_product_db(product):
+    try:
+        db.session.commit()
+        return True
+    except:
+        db.session.rollback()
+        return False
