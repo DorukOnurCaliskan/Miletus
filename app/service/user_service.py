@@ -1,7 +1,8 @@
 import datetime
 
 from app.db import user_db
-from app.models.user_models import User, Restaurant, Product
+from app.models.restaurant_models import Product, Restaurant
+from app.models.user_models import User
 
 
 def get_user_by_phone_service(phone):

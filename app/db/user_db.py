@@ -1,5 +1,7 @@
 from app import db
-from app.models.user_models import User, Restaurant
+from app.models.restaurant_models import Restaurant, Product
+from app.models.user_models import User
+
 
 
 def get_user_by_phone(phone):
@@ -94,7 +96,7 @@ def add_product_to_db(product):
 
 
 def get_product_by_id_from_db(product_id):
-    return db.session.query(Restaurant).get(product_id)
+    return db.session.query(Product).get(product_id)
 
 
 def edit_product_db(product):
