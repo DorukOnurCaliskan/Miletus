@@ -9,7 +9,7 @@ class Restaurant(db.Model):
     restaurant_type = db.Column(db.String(40), nullable=False)
     restaurant_opening_hour = db.Column(db.Integer, nullable=False)
     restaurant_closing_hour = db.Column(db.Integer, nullable=False)
-    restaurant_status = db.Column(db.String(40), nullable=False)
+    restaurant_status = db.Column(db.Boolean, default=True)
     products = db.relationship('Product', backref='Product')
 
     def to_dict(self):
@@ -25,7 +25,8 @@ class Restaurant(db.Model):
         return data
 
     def from_dict_alternative(self, data):
-        for field in ['restaurant_name', 'restaurant_address', 'restaurant_opening_hour', 'restaurant_closing_hour',
+        for field in ['restaurant_id', 'restaurant_name', 'restaurant_address', 'restaurant_opening_hour',
+                      'restaurant_closing_hour',
                       'restaurant_type', 'restaurant_status']:
             if field in data:
                 setattr(self, field, data[field])
@@ -37,9 +38,8 @@ class Product(db.Model):
     product_name = db.Column(db.String(40), nullable=False, unique=True)
     product_price = db.Column(db.Integer, nullable=False)
     discount_amount = db.Column(db.Integer, nullable=False)
-    product_status = db.Column(db.String(40), nullable=False) # TODO: boolean olacak
-    #product_status = db.Column(db.Boolean, default=False) #Örnek
-    product_stock = db.Column(db.Integer, default=0)  #stock
+    product_status = db.Column(db.Boolean, default=False)  # TODO: boolean olacak
+    product_stock = db.Column(db.Integer, default=0)
     restaurant_id = db.Column(db.Integer, db.ForeignKey('Restaurant.restaurant_id'))
 
     def to_dict(self):
@@ -55,7 +55,7 @@ class Product(db.Model):
         return data
 
     def from_dict_alternative(self, data):
-        for field in ['product_name', 'product_price', 'discount_amount',
-                      'product_status', 'product_stock']:
+        for field in ['product_id', 'product_name', 'product_price', 'discount_amount',
+                      'product_status', 'product_stock', 'restaurant_id']:
             if field in data:
                 setattr(self, field, data[field])

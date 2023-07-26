@@ -20,7 +20,7 @@ class Order(db.Model):
         return data
 
     def from_dict_alternative(self, data):
-        for field in ['order_address', 'order_status']:
+        for field in ['order_id', 'order_address', 'order_status', 'restaurant_id', 'user_id']:
             if field in data:
                 setattr(self, field, data[field])
 
