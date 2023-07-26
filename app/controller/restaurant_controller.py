@@ -7,6 +7,9 @@ from utils.decorators import verify_restaurant_data, verify_product_data
 
 @verify_restaurant_data
 def create_new_restaurant_controller(data):
+    if restaurant_service.get_restaurant_by_name_service(data['restaurant_name']):
+        return bad_request("Üyelik var")
+
     if restaurant_service.create_new_restaurant_service(data):
         return jsonify(message="restoran Üyelik Başarılı")
     else:
@@ -75,3 +78,23 @@ def get_all_restaurant_controller(request):
         return jsonify(message="Sisteme kayıtlı restoran bulunamadı")
 
     return jsonify(restaurant_list)
+
+
+def login_restaurant_controller(request):
+    data = request.get_json() or {}
+
+    # TODO: check all fields and required format
+
+    if 'restaurant_name' not in data and 'restaurant_password' not in data:
+        return bad_request("Mıssing Fields")
+
+    restaurant_name = data['restaurant_name']
+    restaurant_password = data['restaurant_password']
+    # TODO: need format control
+
+    # IF everything fine lets go
+
+    token = restaurant_service.auth_restaurant_service(restaurant_name, restaurant_password)
+    if not token:
+        return bad_request("Restoran Bulunamadı")
+    return jsonify(access_token=token)

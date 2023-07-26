@@ -1,7 +1,5 @@
 import datetime
-
 from app.db import user_db
-from app.models.restaurant_models import Product, Restaurant
 from app.models.user_models import User
 
 
@@ -63,37 +61,8 @@ def get_user_by_email_service(email):
     return user_db.get_user_by_email(email)
 
 
-def create_new_restaurant_service(data):
-    restaurant = Restaurant()
-    restaurant.from_dict_alternative(data)
-    return user_db.insert_restaurant_to_db(restaurant)
 
 
-def get_restaurant_by_id_service(restaurant_id):
-    return user_db.get_restaurant_by_id_from_db(restaurant_id)
 
 
-def edit_restaurant_service(restaurant, data):
-    restaurant.from_dict_alternative(data)
-    return user_db.edit_restaurant_db(restaurant)
 
-
-def get_all_restaurant_service():
-    restaurants = user_db.get_all_restaurants_from_db()
-    restaurants_list = [restaurant.to_dict() for restaurant in restaurants]
-    return restaurants_list
-
-
-def add_product_service(data):
-    product = Product()
-    product.from_dict_alternative(data)
-    return user_db.insert_restaurant_to_db(product)
-
-
-def get_product_by_id_service(product_id):
-    return user_db.get_product_by_id_from_db(product_id)
-
-
-def edit_product_service(product, data):
-    product.from_dict_alternative(data)
-    return user_db.edit_product_db(product)

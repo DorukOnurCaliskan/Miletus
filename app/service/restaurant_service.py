@@ -23,6 +23,14 @@ def get_all_restaurant_service():
     return restaurants_list
 
 
+def get_restaurant_by_type_service(restaurant_type):
+    return restaurant_db.get_restaurant_by_type(restaurant_type)
+
+
+def get_restaurant_by_name_service(restaurant_name):
+    return restaurant_db.get_restaurant_by_name(restaurant_name)
+
+
 def add_product_service(data):
     product = Product()
     product.from_dict_alternative(data)
@@ -36,3 +44,12 @@ def get_product_by_id_service(product_id):
 def edit_product_service(product, data):
     product.from_dict_alternative(data)
     return restaurant_db.edit_product_db(product)
+
+
+def auth_restaurant_service(restaurant_name, restaurant_password):
+    restaurant = restaurant_db.get_restaurant_by_name(restaurant_name)
+    if not restaurant:
+        return False
+    if restaurant.verify_password(restaurant_password):
+        return restaurant.get_token()
+    return False

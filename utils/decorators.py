@@ -58,9 +58,6 @@ def verify_restaurant_data(f):
         if any(chr.isdigit() for chr in data['restaurant_name']):
             return bad_request("İsim formatı yanlış")
 
-        if any(chr.isdigit() for chr in data['restaurant_address']):
-            return bad_request("Adres formatı yanlış")
-
         if not isinstance(data['restaurant_address'], str) or len(data['restaurant_address']) < 1:
             return bad_request("Adres İsim formatı yanlış")
 
@@ -76,6 +73,7 @@ def verify_restaurant_data(f):
         return f(data)
 
     return decorated_function
+
 
 def verify_product_data(f):
     @functools.wraps(f)
@@ -93,7 +91,6 @@ def verify_product_data(f):
 
         if not isinstance(data['discount_amount'], int):
             return bad_request("İndirim saat formatı yanlış")
-
 
         return f(data)
 
