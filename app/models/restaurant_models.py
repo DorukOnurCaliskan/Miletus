@@ -65,6 +65,7 @@ class Restaurant(db.Model):
         for field in ['restaurant_id', 'restaurant_name', 'restaurant_address', 'restaurant_opening_hour',
                       'restaurant_closing_hour',
                       'restaurant_type', 'restaurant_status', 'password']:
+
             if field in data:
                 setattr(self, field, data[field])
             if is_new:

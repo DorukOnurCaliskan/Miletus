@@ -5,6 +5,7 @@ from app.models.restaurant_models import Restaurant, Product
 def create_new_restaurant_service(data):
     restaurant = Restaurant()
     restaurant.from_dict_alternative(data)
+    # restaurant.password = data['restaurant']
     return restaurant_db.insert_restaurant_to_db(restaurant)
 
 

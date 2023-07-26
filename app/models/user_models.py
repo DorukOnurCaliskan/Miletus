@@ -63,7 +63,7 @@ class User(db.Model, UserMixin):
         user.surname = data.get('surname')
         user.phone = data.get('phone')
         user.email = data.get('email')
-        user.password = data.get('password')
+        # user.password = data.get('password')
         return user
 
     def from_dict_alternative(self, data, is_new=False):
